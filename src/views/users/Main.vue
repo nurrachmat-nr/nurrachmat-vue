@@ -18,7 +18,10 @@
                             <strong>{{user.username}}</strong> <br>
                             {{user.email}}
                         </address>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <router-link 
+                        :to="{name:'detailuser', 
+                        params: { id: user.id, username: user.username }}" 
+                        class="btn btn-primary">Detail User</router-link>
                     </div>
                 </div>
             </div>
@@ -28,6 +31,7 @@
 
 <script>
 import LayoutMain from "@/views/LayoutMain"
+import axios from "axios"
 export default {
     components: {
         LayoutMain
@@ -39,18 +43,25 @@ export default {
     },
     methods: {
         getUsers(){
-            fetch("https://jsonplaceholder.typicode.com/users")
+            /*fetch("https://jsonplaceholder.typicode.com/users")
                 .then(response => response.json()) //then 1, set response sebagai json
                 .then(json => {
                     this.datausers = json;    
                 }) //then2, mengambil json dan ditampung/diset ke dalam data
                 .catch(error => {
                     console.log(error);
+                })*/
+            axios.get("https://jsonplaceholder.typicode.com/users")
+                .then(json => {
+                    console.log(json);
+                    this.datausers = json.data;
+                })
+                .catch(error => {
+                    console.log(error);
                 })
         }
     },    
     mounted() {
-        console.log("HALLO");
         this.getUsers();
     }
 }
